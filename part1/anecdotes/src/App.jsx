@@ -1,5 +1,19 @@
 import { useState } from 'react'
 
+const Title =({text}) => {
+  return(
+    <h1>{text}</h1> 
+  )
+}
+const AnecdotesVotes =(props) =>{
+  return(
+    <div>
+      <p>{props.anecdotes[props.indx]}</p>
+      <p>has {props.max} votes</p>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -17,24 +31,23 @@ const App = () => {
   const handleOnClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length)) 
   }
-  console.log(selected)
 
   const handleOnVote = () => {
     const copy = [...votes]
     copy[selected] += 1 
     setVote(copy)
   }
-  console.log(votes)
+
+  const max = Math.max.apply(Math,votes)
+  const indx = votes.indexOf(max)
   return (
     <div>
-      <h1>Anecdote of the day</h1>
+      <Title text={"Anecdote of the day"}></Title>
       <p>{anecdotes[selected]}</p>
       <button onClick={handleOnVote}>vote</button>
       <button onClick={handleOnClick}>next anecdote</button>
-      <h1>Anecdote with most votes</h1>
-      <p>
-        {anecdotes[Math.max.apply(Math,votes)]}
-      </p><p>has {Math.max.apply(Math,votes)} votes</p>
+      <Title text={"Anecdote with most votes"}></Title>
+      <AnecdotesVotes anecdotes={anecdotes} max={max} indx={indx}></AnecdotesVotes>
     </div>
   )
 }
